@@ -5,12 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * This class is network socket based cloner. Data is sent to socket and than is
@@ -19,7 +18,7 @@ import java.net.UnknownHostException;
  * 
  * @author Faruk BOZAN
  * @since 15.4.7
- * @version 15.4.7
+ * @version 15.4.8
  *
  */
 public class SocketBasedCloner implements ICloner {
@@ -35,67 +34,156 @@ public class SocketBasedCloner implements ICloner {
 	private final int PORT = 14725;
 
 	/**
+	 * Server socket.
+	 */
+	private Socket serverSocket = null;
+
+	/**
+	 * Socket.
+	 */
+	private Socket socket = null;
+
+	/**
+	 * Server socket instance.
+	 */
+	private ServerSocket serverSide;
+
+	/**
+	 * Gets server socket.
+	 * 
+	 * @return Server socket.
+	 */
+	private Socket getServerSocket() {
+		return serverSocket;
+	}
+
+	/**
+	 * Sets server socket.
+	 * 
+	 * @param serverSocket
+	 *            Server socket.
+	 */
+	private void setServerSocket(Socket serverSocket) {
+		this.serverSocket = serverSocket;
+	}
+
+	/**
+	 * Gets socket.
+	 * 
+	 * @return Socket.
+	 */
+	private Socket getSocket() {
+		return socket;
+	}
+
+	/**
+	 * Sets socket.
+	 * 
+	 * @param socket
+	 *            Socket.
+	 */
+	private void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+	/**
+	 * Gets server side socket.
+	 * 
+	 * @return Server side socket.
+	 */
+	private ServerSocket getServerSide() {
+		return serverSide;
+	}
+
+	/**
+	 * Sets server side socket.
+	 * 
+	 * @param serverSide
+	 *            Server side socket.
+	 */
+	private void setServerSide(ServerSocket serverSide) {
+		this.serverSide = serverSide;
+	}
+
+	/**
+	 * Creates and initializes sockets.
+	 * 
+	 * @throws IOException
+	 *             Throws when an error occurs during initialization of sockets.
+	 */
+	private void initializeSockets() throws IOException {
+		setServerSide(new ServerSocket(PORT));
+		setSocket(new Socket(HOST, PORT));
+	}
+
+	/**
 	 * Writes source object to socket.
 	 * 
 	 * @param sourceObject
 	 *            Source object to clone.
-	 * @return Socket based on host and port.
 	 * @throws IOException
-	 *             Throws when IO error occurs.
-	 * @throws UnknownHostException
-	 *             Throws when host name is wrong or host is unreachable.
+	 *             Throws when an exception occurs during stream operations.
 	 */
-	private Socket writeToSocket(Object sourceObject) throws UnknownHostException, IOException {
-		Socket socket = new Socket(HOST, PORT);
+	private void writeToSocket(Object sourceObject) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
 		oos.writeObject(sourceObject);
 		oos.flush();
 		byte[] byteArray = baos.toByteArray();
 		oos.close();
-		OutputStream os = socket.getOutputStream();
-		DataOutputStream out = new DataOutputStream(os);
-		out.write(byteArray);
-		return socket;
+		OutputStream os = getSocket().getOutputStream();
+		DataOutputStream dos = new DataOutputStream(os);
+		dos.write(byteArray);
+		dos.flush();
+		dos.close();
 	}
 
 	/**
-	 * Reads data from socket and creates new object.
+	 * Reads source object from socket and creates new object.
 	 * 
-	 * @param socket
-	 *            Socket instance to read data.
-	 * @return New object.
+	 * @return New object instance.
 	 * @throws IOException
-	 *             Throws when IO error occurs.
+	 *             Throws when an exception occurs during stream operations.
 	 * @throws ClassNotFoundException
 	 *             Throws when an exception occurs during class stream
 	 *             operation.
 	 */
-	private Object readFromSocket(Socket socket) throws IOException, ClassNotFoundException {
-		InputStream is = socket.getInputStream();
-		DataInputStream dis = new DataInputStream(is);
-		byte[] newByteData = new byte[dis.available()];
-		dis.read(newByteData);
-		ByteArrayInputStream bais = new ByteArrayInputStream(newByteData);
+	private Object readFromSocket() throws IOException, ClassNotFoundException {
+		setServerSocket(getServerSide().accept());
+		DataInputStream dis = new DataInputStream(getServerSocket().getInputStream());
+		byte[] byteArray = new byte[dis.available()];
+		dis.read(byteArray);
+		ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
 		ObjectInputStream ois = new ObjectInputStream(bais);
 		Object newObject = ois.readObject();
 		ois.close();
 		return newObject;
 	}
 
+	/**
+	 * Closes sockets.
+	 * 
+	 * @throws IOException
+	 *             Throws when an exception occurs during closing sockets.
+	 */
+	private void closeSockets() throws IOException {
+		getSocket().close();
+		getServerSocket().close();
+		getServerSide().close();
+	}
+
 	@Override
 	public Object clone(Object sourceObject) throws ClonerException {
 		try {
-			Socket socket = writeToSocket(sourceObject);
-			Object newObject = readFromSocket(socket);
+			initializeSockets();
+			writeToSocket(sourceObject);
+			Object newObject = readFromSocket();
+			closeSockets();
 			return newObject;
-		} catch (UnknownHostException e) {
-			throw new ClonerException(e);
 		} catch (IOException e) {
 			throw new ClonerException(e);
 		} catch (ClassNotFoundException e) {
 			throw new ClonerException(e);
 		}
 	}
-
 }
