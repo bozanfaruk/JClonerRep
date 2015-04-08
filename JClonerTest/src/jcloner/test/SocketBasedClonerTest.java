@@ -37,14 +37,15 @@ public class SocketBasedClonerTest {
 	}
 
 	@Test
-	public void testByteBasedCloner() {
-		try {
-			SourceObject newObject = (SourceObject) socketBasedCloner.clone(sourceObject);
-			Assert.assertTrue(newObject != sourceObject);
-			Assert.assertTrue(newObject.getList() != sourceObject.getList());
-		} catch (ClonerException e) {
-			e.printStackTrace();
-		}
+	public void testSocketBasedClonerForObject() throws ClonerException {
+		SourceObject newObject = (SourceObject) socketBasedCloner.clone(sourceObject);
+		Assert.assertTrue(newObject != sourceObject);
+	}
+
+	@Test
+	public void testSocketBasedClonerForObjectList() throws ClonerException {
+		SourceObject newObject = (SourceObject) socketBasedCloner.clone(sourceObject);
+		Assert.assertTrue(newObject.getList() != sourceObject.getList());
 	}
 
 }

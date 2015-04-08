@@ -37,14 +37,15 @@ public class FileBasedClonerTest {
 	}
 
 	@Test
-	public void testByteBasedCloner() {
-		try {
-			SourceObject newObject = (SourceObject) fileBasedCloner.clone(sourceObject);
-			Assert.assertTrue(newObject != sourceObject);
-			Assert.assertTrue(newObject.getList() != sourceObject.getList());
-		} catch (ClonerException e) {
-			e.printStackTrace();
-		}
+	public void testFileBasedClonerForObject() throws ClonerException {
+		SourceObject newObject = (SourceObject) fileBasedCloner.clone(sourceObject);
+		Assert.assertTrue(newObject != sourceObject);
+	}
+
+	@Test
+	public void testFileBasedClonerForObjectList() throws ClonerException {
+		SourceObject newObject = (SourceObject) fileBasedCloner.clone(sourceObject);
+		Assert.assertTrue(newObject.getList() != sourceObject.getList());
 	}
 
 }
