@@ -4,10 +4,7 @@ import jcloner.ClonerException;
 import jcloner.ICloner;
 import jcloner.SocketBasedCloner;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -22,18 +19,6 @@ public class SocketBasedClonerTest {
 		sourceObject = new SourceObject();
 		sourceObject.addObjectToList(new SourceListObject("Object 1"));
 		sourceObject.addObjectToList(new SourceListObject("Object 2"));
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test
