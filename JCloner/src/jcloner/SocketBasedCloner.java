@@ -18,7 +18,7 @@ import java.net.Socket;
  * 
  * @author Faruk BOZAN
  * @since 15.4.7
- * @version 15.4.8
+ * @version 15.4.26
  *
  */
 public class SocketBasedCloner implements ICloner {

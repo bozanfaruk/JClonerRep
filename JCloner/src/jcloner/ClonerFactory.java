@@ -5,7 +5,7 @@ package jcloner;
  * 
  * @author Faruk BOZAN
  * @since 15.4.8
- * @version 15.4.8
+ * @version 15.4.26
  *
  */
 public class ClonerFactory {

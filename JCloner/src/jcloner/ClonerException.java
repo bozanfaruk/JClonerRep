@@ -5,7 +5,7 @@ package jcloner;
  * 
  * @author Faruk BOZAN
  * @since 15.4.5
- * @version 15.4.5
+ * @version 15.4.26
  *
  */
 public class ClonerException extends Exception {
