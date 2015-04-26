@@ -127,15 +127,22 @@ public class SocketBasedCloner implements ICloner {
 	private void writeToSocket(Object sourceObject) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		oos.writeObject(sourceObject);
-		oos.flush();
-		byte[] byteArray = baos.toByteArray();
-		oos.close();
+		byte[] byteArray = null;
+		try {
+			oos.writeObject(sourceObject);
+			oos.flush();
+			byteArray = baos.toByteArray();
+		} finally {
+			oos.close();
+		}
 		OutputStream os = getSocket().getOutputStream();
 		DataOutputStream dos = new DataOutputStream(os);
-		dos.write(byteArray);
-		dos.flush();
-		dos.close();
+		try {
+			dos.write(byteArray);
+			dos.flush();
+		} finally {
+			dos.close();
+		}
 	}
 
 	/**
@@ -152,11 +159,19 @@ public class SocketBasedCloner implements ICloner {
 		setServerSocket(getServerSide().accept());
 		DataInputStream dis = new DataInputStream(getServerSocket().getInputStream());
 		byte[] byteArray = new byte[dis.available()];
-		dis.read(byteArray);
+		try {
+			dis.read(byteArray);
+		} finally {
+			dis.close();
+		}
 		ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
 		ObjectInputStream ois = new ObjectInputStream(bais);
-		Object newObject = ois.readObject();
-		ois.close();
+		Object newObject = null;
+		try {
+			newObject = ois.readObject();
+		} finally {
+			ois.close();
+		}
 		return newObject;
 	}
 

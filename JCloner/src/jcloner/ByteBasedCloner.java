@@ -29,10 +29,15 @@ public class ByteBasedCloner implements ICloner {
 	private byte[] createByteArray(Object sourceObject) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		oos.writeObject(sourceObject);
-		oos.flush();
-		byte[] byteArray = baos.toByteArray();
-		oos.close();
+		byte[] byteArray = null;
+		try {
+			oos.writeObject(sourceObject);
+			oos.flush();
+			byteArray = baos.toByteArray();
+		} finally {
+			oos.close();
+		}
+
 		return byteArray;
 	}
 
@@ -51,8 +56,12 @@ public class ByteBasedCloner implements ICloner {
 	private Object createNewObject(byte[] byteArray) throws IOException, ClassNotFoundException {
 		ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
 		ObjectInputStream ois = new ObjectInputStream(bais);
-		Object newObject = ois.readObject();
-		ois.close();
+		Object newObject = null;
+		try {
+			newObject = ois.readObject();
+		} finally {
+			ois.close();
+		}
 		return newObject;
 	}
 

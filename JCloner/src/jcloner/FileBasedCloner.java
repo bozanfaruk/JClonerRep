@@ -38,9 +38,12 @@ public class FileBasedCloner implements ICloner {
 		cloneFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(cloneFile);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(sourceObject);
-		oos.flush();
-		oos.close();
+		try {
+			oos.writeObject(sourceObject);
+			oos.flush();
+		} finally {
+			oos.close();
+		}
 		return cloneFile;
 	}
 
@@ -61,8 +64,12 @@ public class FileBasedCloner implements ICloner {
 			throw new FileNotFoundException(FILE_NAME.concat(" not found!"));
 		FileInputStream fis = new FileInputStream(cloneFile);
 		ObjectInputStream ois = new ObjectInputStream(fis);
-		Object newObject = ois.readObject();
-		ois.close();
+		Object newObject = null;
+		try {
+			newObject = ois.readObject();
+		} finally {
+			ois.close();
+		}
 		return newObject;
 	}
 
