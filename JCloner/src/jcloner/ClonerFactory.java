@@ -30,8 +30,7 @@ public class ClonerFactory {
 	 * 
 	 * @param clonerType
 	 *            Cloner type. Use fields of this class.
-	 * @return ICloner instance due to cloner type. If cloner type is invalid
-	 *         returns null.
+	 * @return ICloner instance due to cloner type.
 	 * @throws InvalidClonerTypeException
 	 *             Throws when clonerType parameter value is invalid.
 	 */
