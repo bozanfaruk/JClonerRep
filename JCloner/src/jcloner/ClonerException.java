@@ -5,7 +5,7 @@ package jcloner;
  * 
  * @author Faruk BOZAN
  * @since 15.4.5
- * @version 15.4.26
+ * @version 15.5.7
  *
  */
 public class ClonerException extends Exception {
@@ -22,7 +22,7 @@ public class ClonerException extends Exception {
 	 *            Exception instance.
 	 */
 	public ClonerException(Exception e) {
-		super("An exception occurs during clone operation", e);
+		super("An exception occurs during clone operation!", e);
 	}
 
 }

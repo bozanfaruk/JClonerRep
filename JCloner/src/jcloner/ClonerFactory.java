@@ -5,7 +5,7 @@ package jcloner;
  * 
  * @author Faruk BOZAN
  * @since 15.4.8
- * @version 15.4.26
+ * @version 15.5.7
  *
  */
 public class ClonerFactory {
@@ -32,8 +32,10 @@ public class ClonerFactory {
 	 *            Cloner type. Use fields of this class.
 	 * @return ICloner instance due to cloner type. If cloner type is invalid
 	 *         returns null.
+	 * @throws InvalidClonerTypeException
+	 *             Throws when clonerType parameter value is invalid.
 	 */
-	public ICloner createCloner(int clonerType) {
+	public ICloner createCloner(int clonerType) throws InvalidClonerTypeException {
 		switch (clonerType) {
 		case BYTE_BASED_CLONER:
 			return new ByteBasedCloner();
@@ -42,6 +44,6 @@ public class ClonerFactory {
 		case SOCKET_BASED_CLONER:
 			return new SocketBasedCloner();
 		}
-		return null;
+		throw new InvalidClonerTypeException();
 	}
 }
