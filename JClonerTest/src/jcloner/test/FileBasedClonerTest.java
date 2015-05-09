@@ -1,7 +1,7 @@
 package jcloner.test;
 
 import jcloner.ClonerException;
-import jcloner.FileBasedCloner;
+import jcloner.ClonerFactory;
 import jcloner.ICloner;
 
 import org.junit.Assert;
@@ -12,10 +12,12 @@ public class FileBasedClonerTest {
 
 	private static ICloner fileBasedCloner = null;
 	private static SourceObject sourceObject = null;
+	private static ClonerFactory factory = null;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		fileBasedCloner = new FileBasedCloner();
+		factory = new ClonerFactory();
+		fileBasedCloner = factory.createCloner(ClonerFactory.FILE_BASED_CLONER);
 		sourceObject = new SourceObject();
 		sourceObject.addObjectToList(new SourceListObject("Object 1"));
 		sourceObject.addObjectToList(new SourceListObject("Object 2"));
