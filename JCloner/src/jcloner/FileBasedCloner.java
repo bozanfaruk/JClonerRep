@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
  * 
  * @author Faruk BOZAN
  * @since 15.4.5
- * @version 15.4.26
+ * @version 15.5.9
  *
  */
 public class FileBasedCloner implements ICloner {
@@ -48,7 +48,7 @@ public class FileBasedCloner implements ICloner {
 	}
 
 	/**
-	 * Reads source object from file to clone.
+	 * Reads source object from file to clone and than deletes file.
 	 * 
 	 * @param cloneFile
 	 *            File that source object is written.
@@ -69,6 +69,7 @@ public class FileBasedCloner implements ICloner {
 			newObject = ois.readObject();
 		} finally {
 			ois.close();
+			cloneFile.delete();
 		}
 		return newObject;
 	}
