@@ -18,7 +18,7 @@ import java.net.Socket;
  * 
  * @author Faruk BOZAN
  * @since 15.4.7
- * @version 15.4.26
+ * @version 15.5.9
  *
  */
 public class SocketBasedCloner implements ICloner {
@@ -26,12 +26,12 @@ public class SocketBasedCloner implements ICloner {
 	/**
 	 * Default host, localhost.
 	 */
-	private final String HOST = "127.0.0.1";
+	private final String HOST = ClonerSettings.getSocketHost();
 
 	/**
 	 * Default port for socket.
 	 */
-	private final int PORT = 14725;
+	private final int PORT = ClonerSettings.getSocketPort();
 
 	/**
 	 * Server socket.

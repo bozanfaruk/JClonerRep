@@ -22,7 +22,7 @@ public class FileBasedCloner implements ICloner {
 	/**
 	 * File name for clone.
 	 */
-	private final String FILE_NAME = "cloner.jcloner";
+	private final String FILE_NAME = ClonerSettings.getFileName();
 
 	/**
 	 * Writes source object to file.
@@ -69,7 +69,8 @@ public class FileBasedCloner implements ICloner {
 			newObject = ois.readObject();
 		} finally {
 			ois.close();
-			cloneFile.delete();
+			if (ClonerSettings.isDeleteCloneFile())
+				cloneFile.delete();
 		}
 		return newObject;
 	}
