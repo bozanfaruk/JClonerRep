@@ -2,6 +2,7 @@ package jcloner.test;
 
 import jcloner.ClonerException;
 import jcloner.ClonerFactory;
+import jcloner.ClonerTypes;
 import jcloner.ICloner;
 
 import org.junit.Assert;
@@ -17,7 +18,7 @@ public class ByteBasedClonerTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		factory = new ClonerFactory();
-		byteBasedCloner = factory.createCloner(ClonerFactory.BYTE_BASED_CLONER);
+		byteBasedCloner = factory.createCloner(ClonerTypes.BYTE_BASED_CLONER);
 		sourceObject = new SourceObject();
 		sourceObject.addObjectToList(new SourceListObject("Object 1"));
 		sourceObject.addObjectToList(new SourceListObject("Object 2"));

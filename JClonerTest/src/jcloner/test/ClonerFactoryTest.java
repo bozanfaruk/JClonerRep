@@ -2,6 +2,7 @@ package jcloner.test;
 
 import jcloner.ByteBasedCloner;
 import jcloner.ClonerFactory;
+import jcloner.ClonerTypes;
 import jcloner.FileBasedCloner;
 import jcloner.ICloner;
 import jcloner.InvalidClonerTypeException;
@@ -28,25 +29,25 @@ public class ClonerFactoryTest {
 
 	@Test
 	public void testCreateByteBasedCloner() throws InvalidClonerTypeException {
-		ICloner tempCloner = factory.createCloner(ClonerFactory.BYTE_BASED_CLONER);
+		ICloner tempCloner = factory.createCloner(ClonerTypes.BYTE_BASED_CLONER);
 		Assert.assertTrue(tempCloner.getClass() == bbc.getClass());
 	}
 
 	@Test
 	public void testCreateFileBasedCloner() throws InvalidClonerTypeException {
-		ICloner tempCloner = factory.createCloner(ClonerFactory.FILE_BASED_CLONER);
+		ICloner tempCloner = factory.createCloner(ClonerTypes.FILE_BASED_CLONER);
 		Assert.assertTrue(tempCloner.getClass() == fbc.getClass());
 	}
 
 	@Test
 	public void testCreateSocketBasedCloner() throws InvalidClonerTypeException {
-		ICloner tempCloner = factory.createCloner(ClonerFactory.SOCKET_BASED_CLONER);
+		ICloner tempCloner = factory.createCloner(ClonerTypes.SOCKET_BASED_CLONER);
 		Assert.assertTrue(tempCloner.getClass() == sbc.getClass());
 	}
 
 	@Test(expected = InvalidClonerTypeException.class)
 	public void testCreateNullCloner() throws InvalidClonerTypeException {
-		ICloner tempCloner = factory.createCloner(Integer.MAX_VALUE);
+		ICloner tempCloner = factory.createCloner(ClonerTypes.INVALID_CLONER);
 		Assert.assertNull(tempCloner);
 	}
 
