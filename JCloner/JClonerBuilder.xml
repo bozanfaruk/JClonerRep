@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JCloner" default="jar">
+	<target name="jar" description="Create JAR file">
+		<jar destfile="JCloner.jar">
+			<fileset dir="bin" />
+		</jar>
+	</target>
+</project>
