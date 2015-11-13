@@ -5,7 +5,7 @@ package jcloner;
  * 
  * @author Faruk BOZAN
  * @since 15.4.3
- * @version 15.4.26
+ * @version 15.11.13
  *
  */
 public interface ICloner {

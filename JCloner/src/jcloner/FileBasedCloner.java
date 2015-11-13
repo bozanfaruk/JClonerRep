@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
  * 
  * @author Faruk BOZAN
  * @since 15.4.5
- * @version 15.5.9
+ * @version 15.11.13
  *
  */
 public class FileBasedCloner implements ICloner {

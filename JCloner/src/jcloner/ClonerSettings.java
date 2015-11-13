@@ -5,7 +5,7 @@ package jcloner;
  * 
  * @author Faruk BOZAN
  * @since 15.5.9
- * @version 15.5.9
+ * @version 15.11.13
  *
  */
 public class ClonerSettings {

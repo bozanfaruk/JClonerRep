@@ -5,7 +5,7 @@ package jcloner;
  * 
  * @author Faruk BOZAN
  * @since 15.5.18
- * @version 15.5.18
+ * @version 15.11.13
  *
  */
 public enum ClonerTypes {

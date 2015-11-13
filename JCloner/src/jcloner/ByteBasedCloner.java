@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
  * 
  * @author Faruk BOZAN
  * @since 15.4.3
- * @version 15.4.26
+ * @version 15.11.13
  *
  */
 public class ByteBasedCloner implements ICloner {
